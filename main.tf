@@ -7,9 +7,9 @@ terraform {
 }
 
 provider "yandex" {
-  token     = "AQAAAAABRry4AATuwcbwbRDM8EbOnM3dNwbJ-cQ"
-  cloud_id  = "b1ghjq22lr63dgtqpu9l"
-  folder_id = "b1gehqihinh6cal2a9hq"
+  token     = var.yc_token 
+  cloud_id  = var.cloud_id
+  folder_id = var.folder_id
   zone      = "ru-central1-a"
 }
 
@@ -24,7 +24,7 @@ resource "yandex_compute_instance" "vm-1" {
 
   boot_disk {
     initialize_params {
-      image_id = "fd87uq4tagjupcnm376a"
+      image_id = var.image_id
       size        = 25
     }
   }
@@ -37,6 +37,7 @@ resource "yandex_compute_instance" "vm-1" {
   metadata = {
     user-data = "${file("./meta.yml")}"
   }
+  
 }
 
 resource "yandex_compute_instance" "vm-2" {
@@ -50,7 +51,7 @@ resource "yandex_compute_instance" "vm-2" {
 
   boot_disk {
     initialize_params {
-      image_id = "fd87uq4tagjupcnm376a"
+      image_id = var.image_id
       size        = 25
     }
   }
