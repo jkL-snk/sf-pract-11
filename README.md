@@ -1,19 +1,19 @@
 # sf-pract-11
 
-Скрипт Terraform для создания двух VM и скрипты для создания master и worker-нод Kubernetes с помощью kubectl.
+This repo contains example terraform script that creates 2 virtual machines on Yandex Public Cloud service and shell scripts for creating a Kubernetes cluster via kubectl and configuring this vms as a master and a worker node of the cluster.
 
-Требования: Git, Terraform, аккаунт в Yandex Cloud, OAUTH-токен от аккаунта.
+Requirements: Yandex Cloud account, OAUTH token for this account, Terraform and Git, ssh key pair.
 
-В файле meta.yml требуется изменить имя пользователя и публичный ключ на ваши. В файле variables.tf указать ваши идентификаторы облака и папки в облаке.
+It is necessary to change ssh public key and username in meta.yml file. Cloud and folder ids in variables.tf also need to be changed to your values.
 
-Порядок установки:
+Usage:
 
-git clone https://github.com/jkL-snk/sf-pract-11.git
-
-cd ./sf-pract-11
-
+```
+git clone https://github.com/jkL-snk/sf-pract-11-k8s-in-yc-via-tf-bash.git
+cd ./sf-pract-11-k8s-in-yc-via-tf-bash
 terraform apply
+```
 
-Потребуется ввести значение OAUTH-токена.
+Input your Yandex Cloud OAUTH token value.
 
-После выполнения терраформ выдаст внешние ip-адреса машин, по которым можно подключиться по SSH и выполнить одной машине master.sh, на другой worker.sh, начиная с мастера. Перед запуском master.sh объявить переменную EXTIP значением IP-адреса мастерноды: export EXTIP=<ip-адрес>. После создания кластера на мастер-ноде утилита kubeadm выдаст команду для подключения worker-ноды, эту команду следует выполнить после выполнения worker.sh на worker-ноде.
+Terraform outputs IP addresses of virtual machines. Then you can connect via SSH to these machines using your private key for public key in meta.yml. To create master node run export EXTIP=<this vms external ip> and then run master.sh. The script will output the join command. On the worker node you need to run worker.sh and then run this join command.
